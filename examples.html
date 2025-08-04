@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Examples</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      padding-top: 70px;
+    }
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 1rem;
+      background-color: #ffffff;
+      border-bottom: 1px solid #ddd;
+    }
+    .navbar-toggle {
+      display: none;
+      font-size: 1.5rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+    .navbar-links {
+      list-style: none;
+      display: flex;
+      gap: 1rem;
+      margin: 0;
+      padding: 0;
+    }
+    .navbar-links li a {
+      text-decoration: none;
+      color: #333;
+    }
+
+    @media (max-width: 768px) {
+      .navbar-toggle {
+        display: block;
+      }
+      .navbar-links {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        margin-top: 10px;
+      }
+      .navbar-links.show {
+        display: flex;
+      }
+    }
+  </style>
+</head>
+<body class="bg-light">
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="navbar-brand">📘 VocaLearn</div>
+    <button class="navbar-toggle" id="toggleBtn">☰</button>
+    <ul class="navbar-links" id="navbarLinks">
+      <li><a href="./index.html">Home</a></li>
+      <li><a href="./examples.html">My Sentences</a></li>
+      <li><a href="#">Settings</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <h1 class="mt-4">📘 Example Sentences</h1>
+    <div id="exampleList" class="list-group mt-3"></div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Toggle nav
+      const toggleBtn = document.getElementById("toggleBtn");
+      const navbarLinks = document.getElementById("navbarLinks");
+
+      toggleBtn.addEventListener("click", () => {
+        navbarLinks.classList.toggle("show");
+      });
+
+      // Load examples
+      const data = JSON.parse(localStorage.getItem("sentences")) || [];
+      const exampleList = document.getElementById("exampleList");
+
+      if (data.length === 0) {
+        exampleList.innerHTML = '<p>No examples submitted yet.</p>';
+      } else {
+        data.forEach(item => {
+          const el = document.createElement("div");
+          el.className = "list-group-item";
+          el.innerHTML = `<strong>${item.word}</strong>: ${item.sentence}`;
+          exampleList.appendChild(el);
+        });
+      }
+    });
+  </script>
+</body>
+</html>
